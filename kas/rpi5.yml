@@ -1,0 +1,41 @@
+header:
+  version: 14
+
+machine: raspberrypi5
+distro: poky
+target: rpi5-image
+
+repos:
+  # No url = the repo this file lives in (your own layer)
+  rpi5-yocto:
+    layers:
+      meta-rpi5:
+
+  poky:
+    url: https://git.yoctoproject.org/poky
+    branch: wrynose
+    layers:
+      meta:
+      meta-poky:
+
+  meta-openembedded:
+    url: https://git.openembedded.org/meta-openembedded
+    branch: wrynose
+    layers:
+      meta-oe:
+      meta-python:
+      meta-networking:
+
+  meta-raspberrypi:
+    url: https://github.com/agherzan/meta-raspberrypi.git
+    branch: wrynose
+
+local_conf_header:
+  base: |
+    IMAGE_FSTYPES = "wic.bz2 wic.bmap"
+    INHERIT += "rm_work"
+
+  rpi: |
+    ENABLE_UART = "1"
+    RPI_USE_U_BOOT = "0"
+    LICENSE_FLAGS_ACCEPTED = "synaptics-killswitch"
